@@ -1,0 +1,18 @@
+program Project1;
+
+uses
+  Vcl.Forms,
+  PAT24 in 'PAT24.pas' {frmLogin},
+  Vcl.Themes,
+  Vcl.Styles,
+  Unit1 in 'Unit1.pas' {frmSignUp};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmSignUp, frmSignUp);
+  Application.Run;
+end.
