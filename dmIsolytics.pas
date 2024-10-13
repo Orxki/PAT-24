@@ -12,6 +12,7 @@ type
     tblStats: TADOTable;
     tblFoods: TADOTable;
     DsFoods: TDataSource;
+    DsInformation: TDataSource;
   private
     { Private declarations }
   public
