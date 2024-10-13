@@ -1,0 +1,66 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Unit2, dmIsolytics;
+
+type
+  TfrmSignUp = class(TForm)
+    lblName: TLabel;
+    lblUsername: TLabel;
+    lblEmail: TLabel;
+    lblPass: TLabel;
+    lblConfirm: TLabel;
+    lblBirth: TLabel;
+    lblSex: TLabel;
+    edtName: TEdit;
+    edtUsername: TEdit;
+    edtEmail: TEdit;
+    edtPassword: TEdit;
+    edtConfirmPassword: TEdit;
+    DtpDOB: TDateTimePicker;
+    cmbSex: TComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    CheckBox1: TCheckBox;
+    Button1: TButton;
+    procedure Label2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    sName, sUsername, sPassword, sSex: string;
+    sDOB: TDateTime;
+    formattedDate: string;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSignUp: TfrmSignUp;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmSignUp.Button1Click(Sender: TObject);       // Sign Up clicked
+begin
+ sDOB := DtpDOB.Date;
+ formattedDate := FormatDateTime('yyyy/mm/dd', sDOB);
+   sName := edtName.Text;
+  sUsername := edtUsername.Text;
+  sPassword := edtPassword.Text;
+   sSex := cmbSex.Text;
+
+
+
+
+end;
+
+procedure TfrmSignUp.Label2Click(Sender: TObject);
+begin
+  form2.Show;
+end;
+
+end.

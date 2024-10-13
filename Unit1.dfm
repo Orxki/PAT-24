@@ -141,42 +141,42 @@ object frmSignUp: TfrmSignUp
     ParentFont = False
     OnClick = Label2Click
   end
-  object Edit1: TEdit
+  object edtName: TEdit
     Left = 208
     Top = 37
     Width = 129
     Height = 23
     TabOrder = 0
   end
-  object Edit2: TEdit
+  object edtUsername: TEdit
     Left = 208
     Top = 68
     Width = 129
     Height = 23
     TabOrder = 1
   end
-  object Edit3: TEdit
+  object edtEmail: TEdit
     Left = 208
     Top = 99
     Width = 129
     Height = 23
     TabOrder = 2
   end
-  object Edit4: TEdit
+  object edtPassword: TEdit
     Left = 208
     Top = 130
     Width = 129
     Height = 23
     TabOrder = 3
   end
-  object Edit5: TEdit
+  object edtConfirmPassword: TEdit
     Left = 208
     Top = 161
     Width = 129
     Height = 23
     TabOrder = 4
   end
-  object DateTimePicker1: TDateTimePicker
+  object DtpDOB: TDateTimePicker
     Left = 208
     Top = 190
     Width = 97
@@ -212,5 +212,6 @@ object frmSignUp: TfrmSignUp
     Height = 25
     Caption = 'Sign Up'
     TabOrder = 8
+    OnClick = Button1Click
   end
 end

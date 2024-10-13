@@ -6,20 +6,21 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,
-  Vcl.StdCtrls, Unit1, Unit4;
+  Vcl.StdCtrls, Unit1, Unit4, dmIsolytics;
 
 type
   TfrmLogin = class(TForm)
-    Image1: TImage;
-    Image2: TImage;
-    Label1: TLabel;
-    Edit1: TEdit;
-    Edit2: TEdit;
+    imgLogo: TImage;
+    imgPanel: TImage;
+    lblSignUp: TLabel;
+    edtusername: TEdit;
+    edtPassword: TEdit;
     btnLogin: TButton;
-    procedure Label1Click(Sender: TObject);
+    procedure lblSignUpClick(Sender: TObject);
     procedure btnLoginClick(Sender: TObject);
+
   private
-    { Private declarations }
+    sUsername, sPassword: string;
   public
     { Public declarations }
   end;
@@ -28,17 +29,47 @@ var
   frmLogin: TfrmLogin;
 
 implementation
-                                              //Finish your pat bbg
+
 {$R *.dfm}
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
-Form4.show;
+  sUsername := edtusername.Text;
+  sPassword := edtPassword.Text;
+
+  if (sUsername = '') or (sPassword = '') then
+  begin
+    ShowMessage('Please enter both Username and Password.');
+    Exit;
+  end;
+
+  // Make sure to locate the first record in the dataset
+  dmIsolytic.tblInformation.First;
+
+  // Loop through all records in the table
+  while not dmIsolytic.tblInformation.Eof do
+  begin
+    // Check if both username and password match
+    if (dmIsolytic.tblInformation['UserName'] = sUsername) and
+      (dmIsolytic.tblInformation['Password'] = sPassword) then
+    begin
+      ShowMessage('Login successful!');
+      Form4.Show; // Show the next form after successful login
+      Exit; // Exit the loop after successful login
+    end;
+
+    // Move to the next record if no match
+    dmIsolytic.tblInformation.Next;
+  end;
+
+  // If no match is found after checking all records
+  ShowMessage('Incorrect Username or Password.');
 end;
 
-procedure TfrmLogin.Label1Click(Sender: TObject);
+
+procedure TfrmLogin.lblSignUpClick(Sender: TObject);
 begin
-  frmSignup.show;
+  frmSignup.Show;
 end;
 
 end.

@@ -10,6 +10,7 @@ object Form4: TForm4
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
   TextHeight = 15
   object PageControl1: TPageControl
     Left = 0
@@ -3537,7 +3538,7 @@ object Form4: TForm4
           27044904411004411004411027044904411004411004411027C4FF07E3BA160C
           DD42378B0000000049454E44AE426082}
       end
-      object Label1: TLabel
+      object lblDietStreak: TLabel
         Left = 176
         Top = 112
         Width = 11
@@ -3552,7 +3553,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label2: TLabel
+      object lblWorkoutStreak: TLabel
         Left = 232
         Top = 152
         Width = 11
@@ -3567,7 +3568,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label3: TLabel
+      object lblWorkoutsCompleted: TLabel
         Left = 272
         Top = 192
         Width = 11
@@ -3582,9 +3583,9 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label4: TLabel
-        Left = 32
-        Top = 296
+      object lblShoulders: TLabel
+        Left = 41
+        Top = 294
         Width = 11
         Height = 28
         Caption = '0'
@@ -3597,7 +3598,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label5: TLabel
+      object lblBiceps: TLabel
         Left = 24
         Top = 320
         Width = 11
@@ -3612,7 +3613,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label6: TLabel
+      object lblAbs: TLabel
         Left = 48
         Top = 344
         Width = 11
@@ -3627,7 +3628,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label7: TLabel
+      object lblCalves: TLabel
         Left = 40
         Top = 424
         Width = 11
@@ -3642,7 +3643,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label8: TLabel
+      object lblBack: TLabel
         Left = 416
         Top = 304
         Width = 11
@@ -3657,7 +3658,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label9: TLabel
+      object lblGlutes: TLabel
         Left = 416
         Top = 360
         Width = 11
@@ -3672,7 +3673,7 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object Label10: TLabel
+      object lblQuads: TLabel
         Left = 433
         Top = 394
         Width = 11
@@ -3747,28 +3748,13 @@ object Form4: TForm4
         ParentColor = False
         ParentFont = False
       end
-      object lblMetric: TLabel
-        Left = 504
-        Top = 304
-        Width = 127
-        Height = 28
-        Caption = 'Metric System:'
-        Color = 16744111
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clMenu
-        Font.Height = -20
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-      end
       object Image2: TImage
         Left = 560
         Top = 382
         Width = 137
         Height = 105
       end
-      object SpinEdit1: TSpinEdit
+      object spnWeight: TSpinEdit
         Left = 648
         Top = 176
         Width = 121
@@ -3778,7 +3764,7 @@ object Form4: TForm4
         TabOrder = 0
         Value = 0
       end
-      object SpinEdit2: TSpinEdit
+      object spnHeight: TSpinEdit
         Left = 648
         Top = 206
         Width = 121
@@ -3788,7 +3774,7 @@ object Form4: TForm4
         TabOrder = 1
         Value = 0
       end
-      object SpinEdit4: TSpinEdit
+      object spnAge: TSpinEdit
         Left = 648
         Top = 266
         Width = 121
@@ -3798,7 +3784,7 @@ object Form4: TForm4
         TabOrder = 2
         Value = 0
       end
-      object ComboBox1: TComboBox
+      object cmbGender: TComboBox
         Left = 648
         Top = 237
         Width = 121
@@ -3809,24 +3795,14 @@ object Form4: TForm4
           'Male'
           'Female')
       end
-      object ComboBox2: TComboBox
-        Left = 648
-        Top = 304
-        Width = 121
-        Height = 23
-        TabOrder = 4
-        Text = 'pick'
-        Items.Strings = (
-          'Cm/Kg'
-          'Ft/Lbs')
-      end
       object Button1: TButton
         Left = 560
-        Top = 351
+        Top = 327
         Width = 137
         Height = 25
         Caption = 'Calculate'
-        TabOrder = 5
+        TabOrder = 4
+        OnClick = Button1Click
       end
     end
     object TabSheet2: TTabSheet
@@ -8734,8 +8710,9 @@ object Form4: TForm4
         Height = 25
         Caption = 'Completed Workout'
         TabOrder = 0
+        OnClick = Button2Click
       end
-      object RadioButton1: TRadioButton
+      object RgbPull: TRadioButton
         Left = 32
         Top = 24
         Width = 17
@@ -8744,7 +8721,7 @@ object Form4: TForm4
         ParentColor = False
         TabOrder = 1
       end
-      object RadioButton2: TRadioButton
+      object RgpPush: TRadioButton
         Left = 272
         Top = 24
         Width = 17
@@ -8753,7 +8730,7 @@ object Form4: TForm4
         ParentColor = False
         TabOrder = 2
       end
-      object RadioButton3: TRadioButton
+      object RgpLegs: TRadioButton
         Left = 512
         Top = 24
         Width = 17
@@ -9321,6 +9298,89 @@ object Form4: TForm4
           A102000048225400000049840A000020895001000024112A0000802442050000
           9044A800000092081500004012A102000048225400000049840A000020895001
           000024F9FF012BE4E73C10C26C5E0000000049454E44AE426082}
+      end
+      object DBGrid1: TDBGrid
+        Left = 24
+        Top = 90
+        Width = 417
+        Height = 401
+        DataSource = dmIsolytic.DsFoods
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Food'
+            Width = 140
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Calories'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Proteins'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Fats'
+            Visible = True
+          end>
+      end
+      object btnAddFood: TButton
+        Left = 520
+        Top = 90
+        Width = 185
+        Height = 25
+        Caption = 'Add Food'
+        TabOrder = 1
+        OnClick = btnAddFoodClick
+      end
+      object btnRemoveFood: TButton
+        Left = 520
+        Top = 138
+        Width = 185
+        Height = 25
+        Caption = 'Remove Food'
+        TabOrder = 2
+        OnClick = btnAddFoodClick
+      end
+      object btnEditFood: TButton
+        Left = 520
+        Top = 186
+        Width = 185
+        Height = 25
+        Caption = 'EditFood'
+        TabOrder = 3
+        OnClick = btnAddFoodClick
+      end
+      object btnLogFood: TButton
+        Left = 520
+        Top = 240
+        Width = 185
+        Height = 25
+        Caption = 'Log Food'
+        TabOrder = 4
+        OnClick = btnLogFoodClick
+      end
+      object memFoods: TMemo
+        Left = 520
+        Top = 296
+        Width = 185
+        Height = 193
+        TabOrder = 5
       end
     end
   end

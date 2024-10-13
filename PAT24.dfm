@@ -11,7 +11,7 @@ object frmLogin: TfrmLogin
   Font.Name = 'Segoe UI'
   Font.Style = []
   TextHeight = 15
-  object Image1: TImage
+  object imgLogo: TImage
     Left = 8
     Top = -16
     Width = 385
@@ -1026,7 +1026,7 @@ object frmLogin: TfrmLogin
     Proportional = True
     Stretch = True
   end
-  object Image2: TImage
+  object imgPanel: TImage
     Left = 8
     Top = 192
     Width = 305
@@ -1738,7 +1738,7 @@ object frmLogin: TfrmLogin
       4E44AE426082}
     Stretch = True
   end
-  object Label1: TLabel
+  object lblSignUp: TLabel
     Left = 80
     Top = 449
     Width = 166
@@ -1752,9 +1752,9 @@ object frmLogin: TfrmLogin
     Font.Style = []
     ParentColor = False
     ParentFont = False
-    OnClick = Label1Click
+    OnClick = lblSignUpClick
   end
-  object Edit1: TEdit
+  object edtusername: TEdit
     Left = 152
     Top = 296
     Width = 105
@@ -1768,7 +1768,7 @@ object frmLogin: TfrmLogin
     ParentFont = False
     TabOrder = 0
   end
-  object Edit2: TEdit
+  object edtPassword: TEdit
     Left = 152
     Top = 352
     Width = 105

@@ -1,0 +1,119 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Unit2,
+  dmIsolytics;
+
+type
+  TfrmSignUp = class(TForm)
+    lblName: TLabel;
+    lblUsername: TLabel;
+    lblEmail: TLabel;
+    lblPass: TLabel;
+    lblConfirm: TLabel;
+    lblBirth: TLabel;
+    lblSex: TLabel;
+    edtName: TEdit;
+    edtUsername: TEdit;
+    edtEmail: TEdit;
+    edtPassword: TEdit;
+    edtConfirmPassword: TEdit;
+    DtpDOB: TDateTimePicker;
+    cmbSex: TComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    CheckBox1: TCheckBox;
+    Button1: TButton;
+    procedure Label2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    sName, sUsername, sPassword, sEmail, sSex: string;
+    sDOB: TDateTime;
+    formattedDate: string;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSignUp: TfrmSignUp;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmSignUp.Button1Click(Sender: TObject); // Sign Up clicked
+begin
+  // Check if Terms of Service is accepted
+  if CheckBox1.Checked = false then
+  begin
+    ShowMessage('Please read and accept the Terms of Service.');
+    Exit;
+  end;
+
+  // Validate required fields
+  sName := edtName.Text;
+  sUsername := edtUsername.Text;
+  sPassword := edtPassword.Text;
+  sEmail := edtEmail.Text;
+  sSex := cmbSex.Text;
+  sDOB := DtpDOB.Date;
+
+  if (sName = '') or (sUsername = '') or (sEmail = '') or
+     (sPassword = '') or (sSex = '') then
+  begin
+    ShowMessage('Please fill out all fields.');
+    Exit;
+  end;
+
+  // Validate email format
+  if Pos('@', sEmail) = 0 then
+  begin
+    ShowMessage('Please enter a valid email address.');
+    Exit;
+  end;
+
+  // Validate password length
+  if Length(sPassword) < 6 then // You can adjust the minimum length as needed
+  begin
+    ShowMessage('Password must be at least 6 characters long.');
+    Exit;
+  end;
+
+  // Check if passwords match
+  if sPassword <> edtConfirmPassword.Text then
+  begin
+    ShowMessage('Passwords do not match. Please try again.');
+    Exit;
+  end;
+
+  // Validate date of birth
+  if sDOB > Now then
+  begin
+    ShowMessage('Date of birth cannot be in the future.');
+    Exit;
+  end;
+
+  // If all validations pass, proceed to insert data
+  dmIsolytic.tblInformation.Insert;
+  dmIsolytic.tblInformation['FirstName'] := sName;
+  dmIsolytic.tblInformation['UserName'] := sUsername;
+  dmIsolytic.tblInformation['Email'] := sEmail;
+  dmIsolytic.tblInformation['Password'] := sPassword;
+  dmIsolytic.tblInformation['Sex'] := sSex;
+  dmIsolytic.tblInformation['BirthDate'] := sDOB;
+  dmIsolytic.tblInformation.Post;
+
+  ShowMessage('Account Successfully Created');
+end;
+
+
+procedure TfrmSignUp.Label2Click(Sender: TObject);
+begin
+  form2.Show;
+end;
+
+end.
