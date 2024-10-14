@@ -10,7 +10,7 @@ object Form4: TForm4
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object PageControl1: TPageControl
     Left = 0

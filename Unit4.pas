@@ -53,11 +53,11 @@ type
     memFoods: TMemo;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure btnAddFoodClick(Sender: TObject);
     procedure btnEditFoodClick(Sender: TObject);
     procedure btnRemoveFoodClick(Sender: TObject);
     procedure btnLogFoodClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
 
   private
     iWorkoutStreak, iDietStreak, iWorkoutsCompleted, iShoulders, iAbs, iBiceps,
@@ -143,7 +143,8 @@ begin
   rProtein := dmIsolytic.tblFoods.FieldByName('Proteins').AsFloat;
 
   // Log the food item in the memo box
-  memFoods.Lines.Add(Format('Food: %s, Calories: %.2f, Fats: %.2f, Proteins: %.2f',
+  memFoods.Lines.Add
+    (Format('Food: %s, Calories: %.2f, Fats: %.2f, Proteins: %.2f',
     [sFood, rCalories, rFat, rProtein]));
 
   ShowMessage('Food item logged successfully.');
@@ -243,53 +244,55 @@ begin
   end;
 end;
 
-procedure TForm4.FormCreate(Sender: TObject);
-var
-  UserID: integer; // Assuming UserID is of type Integer
+procedure TForm4.FormShow(Sender: TObject);
 begin
-  // Get the UserID from tblInformation (adjust the code to match your logic)
-  UserID := dmIsolytic.tblInformation.FieldByName('UserID').AsInteger;
-
-  // Locate the stats record for the given UserID
-  if dmIsolytic.tblStats.Locate('ID', UserID, []) then
+  var
+    UserID: integer; // Assuming UserID is of type Integer
   begin
-    // Set label captions based on retrieved data
-    lblShoulders.Caption :=
-      IntToStr(dmIsolytic.tblStats.FieldByName('Shoulders').AsInteger);
-    lblBiceps.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Biceps')
-      .AsInteger);
-    lblAbs.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Abs')
-      .AsInteger);
-    lblCalves.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Calves')
-      .AsInteger);
-    lblBack.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Back')
-      .AsInteger);
-    lblGlutes.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Glutes')
-      .AsInteger);
-    lblQuads.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Quads')
-      .AsInteger);
+    // Get the UserID from tblInformation (adjust the code to match your logic)
+    UserID := dmIsolytic.tblInformation.FieldByName('UserID').AsInteger;
 
-    // Optionally, set other stats
-    lblWorkoutStreak.Caption := IntToStr(iWorkoutStreak);
-    // Update this logic based on how you calculate streaks
-    lblDietStreak.Caption := IntToStr(iDietStreak);
-    // Update this logic based on how you calculate streaks
-    lblWorkoutsCompleted.Caption := IntToStr(iWorkoutsCompleted);
-    // Update this logic as necessary
-  end
-  else
-  begin
-    // If no record is found, you can initialize the labels to 0 or any default value
-    lblShoulders.Caption := '0';
-    lblBiceps.Caption := '0';
-    lblAbs.Caption := '0';
-    lblCalves.Caption := '0';
-    lblBack.Caption := '0';
-    lblGlutes.Caption := '0';
-    lblQuads.Caption := '0';
-    lblWorkoutStreak.Caption := '0';
-    lblDietStreak.Caption := '0';
-    lblWorkoutsCompleted.Caption := '0';
+    // Locate the stats record for the given UserID
+    if dmIsolytic.tblStats.Locate('ID', UserID, []) then
+    begin
+      // Set label captions based on retrieved data
+      lblShoulders.Caption :=
+        IntToStr(dmIsolytic.tblStats.FieldByName('Shoulders').AsInteger);
+      lblBiceps.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Biceps')
+        .AsInteger);
+      lblAbs.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Abs')
+        .AsInteger);
+      lblCalves.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Calves')
+        .AsInteger);
+      lblBack.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Back')
+        .AsInteger);
+      lblGlutes.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Glutes')
+        .AsInteger);
+      lblQuads.Caption := IntToStr(dmIsolytic.tblStats.FieldByName('Quads')
+        .AsInteger);
+
+      // Optionally, set other stats
+      lblWorkoutStreak.Caption := IntToStr(iWorkoutStreak);
+      // Update this logic based on how you calculate streaks
+      lblDietStreak.Caption := IntToStr(iDietStreak);
+      // Update this logic based on how you calculate streaks
+      lblWorkoutsCompleted.Caption := IntToStr(iWorkoutsCompleted);
+      // Update this logic as necessary
+    end
+    else
+    begin
+      // If no record is found, you can initialize the labels to 0 or any default value
+      lblShoulders.Caption := '0';
+      lblBiceps.Caption := '0';
+      lblAbs.Caption := '0';
+      lblCalves.Caption := '0';
+      lblBack.Caption := '0';
+      lblGlutes.Caption := '0';
+      lblQuads.Caption := '0';
+      lblWorkoutStreak.Caption := '0';
+      lblDietStreak.Caption := '0';
+      lblWorkoutsCompleted.Caption := '0';
+    end;
   end;
 end;
 
