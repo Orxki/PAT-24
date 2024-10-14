@@ -23,6 +23,48 @@ object frmAdmin: TfrmAdmin
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'AccountID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FirstName'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'UserName'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Email'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Password'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Sex'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'BirthDate'
+        Width = 60
+        Visible = True
+      end>
   end
   object edtImport: TButton
     Left = 8
