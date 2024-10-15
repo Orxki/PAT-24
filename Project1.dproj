@@ -114,7 +114,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Unit4.pas">
-            <Form>Form4</Form>
+            <Form>frmMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="dmIsolytics.pas">

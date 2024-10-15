@@ -1,10 +1,10 @@
-object Form4: TForm4
+object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Isolytics'
   ClientHeight = 573
   ClientWidth = 794
-  Color = 16743854
+  Color = 16744111
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12

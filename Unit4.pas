@@ -10,7 +10,7 @@ uses
   dmIsolytics;
 
 type
-  TForm4 = class(TForm)
+  TfrmMain = class(TForm)
     PageControl1: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
@@ -66,12 +66,14 @@ type
     iWorkoutStreak, iDietStreak, iWorkoutsCompleted, iShoulders, iAbs, iBiceps,
       iCalves, iBack, iQuads, iGlutes: integer;
     CountdownTime: integer;
+    FoodLogArray: array of string; // Declare a dynamic array of strings
+
   public
     { Public declarations }
   end;
 
 var
-  Form4: TForm4;
+  frmMain: TfrmMain;
 
 implementation
 
@@ -79,7 +81,7 @@ implementation
 
 // Add new food item
 // Add new food item
-procedure TForm4.btnAddFoodClick(Sender: TObject);
+procedure TfrmMain.btnAddFoodClick(Sender: TObject);
 var
   sFood: string;
   rCalories, rFat, rProtein: real;
@@ -100,7 +102,7 @@ end;
 
 // Edit food item
 // Edit food item
-procedure TForm4.btnEditFoodClick(Sender: TObject);
+procedure TfrmMain.btnEditFoodClick(Sender: TObject);
 var
   sFood: string;
   rCalories, rFat, rProtein: real;
@@ -137,10 +139,11 @@ end;
 
 // Log food item
 // Log food item
-procedure TForm4.btnLogFoodClick(Sender: TObject);
+procedure TfrmMain.btnLogFoodClick(Sender: TObject);
 var
   sFood: string;
   rCalories, rFat, rProtein: real;
+  i: Integer;
 begin
   if dmIsolytic.tblFoods.IsEmpty then
   begin
@@ -148,37 +151,31 @@ begin
     Exit;
   end;
 
+  // Log food details into memFoods as before
   sFood := dmIsolytic.tblFoods.FieldByName('Food').AsString;
   rCalories := dmIsolytic.tblFoods.FieldByName('Calories').AsFloat;
   rFat := dmIsolytic.tblFoods.FieldByName('Fats').AsFloat;
   rProtein := dmIsolytic.tblFoods.FieldByName('Proteins').AsFloat;
 
-  memFoods.Lines.Add
-    (Format('Food: %s, Calories: %.2f, Fats: %.2f, Proteins: %.2f',
+  memFoods.Lines.Add(Format('Food: %s, Calories: %.2f, Fats: %.2f, Proteins: %.2f',
     [sFood, rCalories, rFat, rProtein]));
   ShowMessage('Food item logged successfully.');
 
-  // Increment DietStreak in the database
-  if not dmIsolytic.tblInformation.Active then
-    Exit; // Check if the table is active before proceeding
+  // Save contents of memFoods to array
+  SetLength(FoodLogArray, memFoods.Lines.Count); // Resize array to match the number of lines
+  for i := 0 to memFoods.Lines.Count - 1 do
+  begin
+    FoodLogArray[i] := memFoods.Lines[i]; // Populate array with each line from memFoods
+  end;
 
-  dmIsolytic.tblInformation.Edit; // Edit the information table
-
-  // Increment DietStreak
-  dmIsolytic.tblInformation.FieldByName('DietStreak').AsInteger :=
-    dmIsolytic.tblInformation.FieldByName('DietStreak').AsInteger + 1;
-
-  // Post changes to the database
-  dmIsolytic.tblInformation.Post;
-
-  // Update lblDietStreak with the new value
-  lblDietStreak.Caption :=
-    IntToStr(dmIsolytic.tblInformation.FieldByName('DietStreak').AsInteger);
+  // Optionally, confirm the array was populated
+  ShowMessage('Food items logged to array.');
 end;
 
+
 // Remove food item
 // Remove food item
-procedure TForm4.btnRemoveFoodClick(Sender: TObject);
+procedure TfrmMain.btnRemoveFoodClick(Sender: TObject);
 begin
   if dmIsolytic.tblFoods.IsEmpty or (dmIsolytic.tblFoods.RecNo = 0) then
   begin
@@ -196,7 +193,7 @@ begin
 end;
 
 // BMI Calculator
-procedure TForm4.Button1Click(Sender: TObject);
+procedure TfrmMain.Button1Click(Sender: TObject);
 var
   rWeight, rHeight, rBMI: real;
 begin
@@ -207,7 +204,7 @@ begin
   ShowMessage('Your BMI is ' + FloatToStr(rBMI));
 end;
 
-procedure TForm4.Button2Click(Sender: TObject);
+procedure TfrmMain.Button2Click(Sender: TObject);
 begin
   // Disable the button to prevent spamming
   Button2.Enabled := False;
@@ -303,7 +300,7 @@ end;
 
 // Handle form show event
 // Handle form show event
-procedure TForm4.FormShow(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
   // Initialize or load data as needed when the form is shown
   if not dmIsolytic.tblInformation.Active then
@@ -348,7 +345,7 @@ begin
   cmbGender.ItemIndex := -1; // Reset gender selection
 end;
 
-procedure TForm4.Timer1Timer(Sender: TObject);
+procedure TfrmMain.Timer1Timer(Sender: TObject);
 begin
   // Re-enable the button
   Button2.Enabled := True;
@@ -357,7 +354,7 @@ begin
   Timer1.Enabled := False;
 end;
 
-procedure TForm4.TimerCountdownTimer(Sender: TObject);
+procedure TfrmMain.TimerCountdownTimer(Sender: TObject);
 var
   Minutes, Seconds: integer;
 begin
