@@ -20,14 +20,6 @@ object dmIsolytic: TdmIsolytic
     Left = 56
     Top = 240
   end
-  object tblStats: TADOTable
-    Active = True
-    Connection = conIsoDataBase
-    CursorType = ctStatic
-    TableName = 'tblStats'
-    Left = 456
-    Top = 200
-  end
   object tblFoods: TADOTable
     Active = True
     Connection = conIsoDataBase

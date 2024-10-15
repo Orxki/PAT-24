@@ -1,0 +1,234 @@
+unit Unit4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.Imaging.pngimage,
+  Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Samples.Spin, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  dmIsolytics;
+
+type
+  TForm4 = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    Image1: TImage;
+    lblDietStreak: TLabel;
+    lblWorkoutStreak: TLabel;
+    lblWorkoutsCompleted: TLabel;
+    lblShoulders: TLabel;
+    lblBiceps: TLabel;
+    lblAbs: TLabel;
+    lblCalves: TLabel;
+    lblBack: TLabel;
+    lblGlutes: TLabel;
+    lblQuads: TLabel;
+    lblWeight: TLabel;
+    lblHeight: TLabel;
+    lblGender: TLabel;
+    lblAge: TLabel;
+    spnWeight: TSpinEdit;
+    spnHeight: TSpinEdit;
+    spnAge: TSpinEdit;
+    cmbGender: TComboBox;
+    Button1: TButton;
+    Image2: TImage;
+    Image3: TImage;
+    Button2: TButton;
+    RgbPull: TRadioButton;
+    RgpPush: TRadioButton;
+    RgpLegs: TRadioButton;
+    Memo1: TMemo;
+    Memo2: TMemo;
+    Memo3: TMemo;
+    Image4: TImage;
+    DBGrid1: TDBGrid;
+    btnAddFood: TButton;
+    btnRemoveFood: TButton;
+    btnEditFood: TButton;
+    btnLogFood: TButton;
+    memFoods: TMemo;
+    procedure Button1Click(Sender: TObject); // BMI Calculator
+    procedure Button2Click(Sender: TObject); // Workout logging
+    procedure btnAddFoodClick(Sender: TObject); // Add food
+    procedure btnEditFoodClick(Sender: TObject); // Edit food
+    procedure btnRemoveFoodClick(Sender: TObject); // Remove food
+    procedure btnLogFoodClick(Sender: TObject); // Log food
+    procedure FormShow(Sender: TObject); // Form show handler
+
+  private
+    iWorkoutStreak, iDietStreak, iWorkoutsCompleted, iShoulders, iAbs, iBiceps,
+      iCalves, iBack, iQuads, iGlutes: integer;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm4.btnAddFoodClick(Sender: TObject);
+var
+  sFood: string;
+  rCalories, rFat, rProtein: real;
+begin
+  sFood := InputBox('Food', 'Food Name:', '');
+  rCalories := StrToFloat(InputBox('Calories', 'Calorie Count:', ''));
+  rFat := StrToFloat(InputBox('Fat', 'Fat Count:', ''));
+  rProtein := StrToFloat(InputBox('Protein', 'Protein Count:', ''));
+
+  dmIsolytic.tblFoods.Insert;
+  dmIsolytic.tblFoods['Food'] := sFood;
+  dmIsolytic.tblFoods['Calories'] := rCalories;
+  dmIsolytic.tblFoods['Proteins'] := rProtein;
+  dmIsolytic.tblFoods['Fats'] := rFat;
+  dmIsolytic.tblFoods.Post; // Post the new record
+  ShowMessage('Food item added successfully.');
+end;
+
+procedure TForm4.btnEditFoodClick(Sender: TObject);
+var
+  sFood: string;
+  rCalories, rFat, rProtein: real;
+begin
+  if dmIsolytic.tblFoods.IsEmpty then
+  begin
+    ShowMessage('No food items to edit.');
+    Exit;
+  end;
+
+  dmIsolytic.tblFoods.Edit;
+
+  sFood := InputBox('Food', 'Food Name:',
+    dmIsolytic.tblFoods.FieldByName('Food').AsString);
+  rCalories := StrToFloat(InputBox('Calories', 'Calorie Count:',
+    FloatToStr(dmIsolytic.tblFoods.FieldByName('Calories').AsFloat)));
+  rFat := StrToFloat(InputBox('Fat', 'Fat Count:',
+    FloatToStr(dmIsolytic.tblFoods.FieldByName('Fats').AsFloat)));
+  rProtein := StrToFloat(InputBox('Protein', 'Protein Count:',
+    FloatToStr(dmIsolytic.tblFoods.FieldByName('Proteins').AsFloat)));
+
+  dmIsolytic.tblFoods['Food'] := sFood;
+  dmIsolytic.tblFoods['Calories'] := rCalories;
+  dmIsolytic.tblFoods['Proteins'] := rProtein;
+  dmIsolytic.tblFoods['Fats'] := rFat;
+
+  dmIsolytic.tblFoods.Post; // Post the changes to the database
+  ShowMessage('Food item edited successfully.');
+end;
+
+procedure TForm4.btnLogFoodClick(Sender: TObject);
+var
+  sFood: string;
+  rCalories, rFat, rProtein: real;
+begin
+  if dmIsolytic.tblFoods.IsEmpty then
+  begin
+    ShowMessage('No food items available to log.');
+    Exit;
+  end;
+
+  sFood := dmIsolytic.tblFoods.FieldByName('Food').AsString;
+  rCalories := dmIsolytic.tblFoods.FieldByName('Calories').AsFloat;
+  rFat := dmIsolytic.tblFoods.FieldByName('Fats').AsFloat;
+  rProtein := dmIsolytic.tblFoods.FieldByName('Proteins').AsFloat;
+
+  memFoods.Lines.Add
+    (Format('Food: %s, Calories: %.2f, Fats: %.2f, Proteins: %.2f',
+    [sFood, rCalories, rFat, rProtein]));
+  ShowMessage('Food item logged successfully.');
+end;
+
+procedure TForm4.btnRemoveFoodClick(Sender: TObject);
+begin
+  if dmIsolytic.tblFoods.IsEmpty then
+  begin
+    ShowMessage('No food items to remove.');
+    Exit;
+  end;
+
+  if MessageDlg('Are you sure you want to delete this food item?',
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    dmIsolytic.tblFoods.Delete; // Delete the currently selected record
+    ShowMessage('Food item deleted successfully.');
+  end;
+end;
+
+procedure TForm4.Button1Click(Sender: TObject); // BMI Calculator
+var
+  rWeight, rHeight, rBMI: real;
+begin
+  rWeight := spnWeight.Value;
+  rHeight := spnHeight.Value / 100;
+
+  rBMI := rWeight / (rHeight * rHeight);
+  ShowMessage('Your BMI is ' + FloatToStr(rBMI));
+end;
+
+procedure TForm4.Button2Click(Sender: TObject); // Log workout
+var
+  ID: integer;
+begin
+  ID := dmIsolytic.tblInformation.FieldByName('ID').AsInteger;
+
+  if RgpPush.Checked then
+  begin
+    dmIsolytic.tblInformation.Insert;
+    dmIsolytic.tblInformation['ID'] := ID;
+    dmIsolytic.tblInformation['Shoulders'] := 1; // Log workout count
+    dmIsolytic.tblInformation.Post;
+    ShowMessage('Push workout logged successfully.');
+  end
+  else if RgbPull.Checked then
+  begin
+    dmIsolytic.tblInformation.Insert;
+    dmIsolytic.tblInformation['ID'] := ID;
+    dmIsolytic.tblInformation['Back'] := 1; // Log workout count
+    dmIsolytic.tblInformation.Post;
+    ShowMessage('Pull workout logged successfully.');
+  end
+  else if RgpLegs.Checked then
+  begin
+    dmIsolytic.tblInformation.Insert;
+    dmIsolytic.tblInformation['ID'] := ID;
+    dmIsolytic.tblInformation['Quads'] := 1; // Log workout count
+    dmIsolytic.tblInformation.Post;
+    ShowMessage('Legs workout logged successfully.');
+  end
+  else
+    ShowMessage('Please select a workout option.');
+end;
+
+procedure TForm4.FormShow(Sender: TObject); // Load user data on form show
+var
+  ID: integer;
+begin
+  ID := dmIsolytic.tblInformation.FieldByName('ID').AsInteger;
+
+  if dmIsolytic.tblInformation.Locate('ID', ID, []) then
+  begin
+    lblShoulders.Caption :=
+      IntToStr(dmIsolytic.tblInformation.FieldByName('Shoulders').AsInteger);
+    lblBack.Caption := IntToStr(dmIsolytic.tblInformation.FieldByName('Back')
+      .AsInteger);
+    lblQuads.Caption := IntToStr(dmIsolytic.tblInformation.FieldByName('Quads')
+      .AsInteger);
+
+    // Initialize other labels as necessary
+  end
+  else
+  begin
+    lblShoulders.Caption := '0';
+    lblBack.Caption := '0';
+    lblQuads.Caption := '0';
+  end;
+end;
+
+end.

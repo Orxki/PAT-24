@@ -66,13 +66,14 @@ object frmAdmin: TfrmAdmin
         Visible = True
       end>
   end
-  object edtImport: TButton
+  object btnFindUser: TButton
     Left = 8
     Top = 280
     Width = 121
     Height = 25
-    Caption = 'Import Users'
+    Caption = 'Find User'
     TabOrder = 1
+    OnClick = btnFindUserClick
   end
   object btnDelete: TButton
     Left = 8
@@ -81,6 +82,7 @@ object frmAdmin: TfrmAdmin
     Height = 25
     Caption = 'Delete User'
     TabOrder = 2
+    OnClick = btnDeleteClick
   end
   object btnEdit: TButton
     Left = 8
@@ -89,22 +91,51 @@ object frmAdmin: TfrmAdmin
     Height = 25
     Caption = 'Edit User'
     TabOrder = 3
+    OnClick = btnEditClick
   end
-  object edtView: TButton
+  object btnView: TButton
     Left = 8
     Top = 400
     Width = 121
     Height = 25
     Caption = 'View Stats'
     TabOrder = 4
+    OnClick = btnViewClick
   end
   object memLogs: TMemo
     Left = 170
     Top = 281
-    Width = 543
+    Width = 383
     Height = 144
-    Lines.Strings = (
-      'memLogs')
     TabOrder = 5
+  end
+  object btnSaveLogs: TButton
+    Left = 592
+    Top = 408
+    Width = 129
+    Height = 31
+    Caption = 'Save Logs'
+    TabOrder = 6
+    OnClick = btnSaveLogsClick
+  end
+  object rgpSort: TRadioGroup
+    Left = 578
+    Top = 280
+    Width = 159
+    Height = 80
+    Caption = 'Sort'
+    Items.Strings = (
+      'Name'
+      'AccountID')
+    TabOrder = 7
+  end
+  object btnSort: TButton
+    Left = 616
+    Top = 366
+    Width = 75
+    Height = 25
+    Caption = 'Sort'
+    TabOrder = 8
+    OnClick = btnSortClick
   end
 end

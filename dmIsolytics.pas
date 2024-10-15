@@ -9,7 +9,6 @@ type
   TdmIsolytic = class(TDataModule)
     conIsoDataBase: TADOConnection;
     tblInformation: TADOTable;
-    tblStats: TADOTable;
     tblFoods: TADOTable;
     DsFoods: TDataSource;
     DsInformation: TDataSource;

@@ -9348,31 +9348,13 @@ object Form4: TForm4
         TabOrder = 1
         OnClick = btnAddFoodClick
       end
-      object btnRemoveFood: TButton
-        Left = 520
-        Top = 138
-        Width = 185
-        Height = 25
-        Caption = 'Remove Food'
-        TabOrder = 2
-        OnClick = btnAddFoodClick
-      end
-      object btnEditFood: TButton
-        Left = 520
-        Top = 186
-        Width = 185
-        Height = 25
-        Caption = 'EditFood'
-        TabOrder = 3
-        OnClick = btnAddFoodClick
-      end
       object btnLogFood: TButton
         Left = 520
         Top = 240
         Width = 185
         Height = 25
         Caption = 'Log Food'
-        TabOrder = 4
+        TabOrder = 2
         OnClick = btnLogFoodClick
       end
       object memFoods: TMemo
@@ -9380,8 +9362,37 @@ object Form4: TForm4
         Top = 296
         Width = 185
         Height = 193
+        TabOrder = 3
+      end
+      object btnRemoveFood: TButton
+        Left = 520
+        Top = 136
+        Width = 185
+        Height = 25
+        Caption = 'Remove Food'
+        TabOrder = 4
+        OnClick = btnRemoveFoodClick
+      end
+      object btnEditFood: TButton
+        Left = 520
+        Top = 192
+        Width = 185
+        Height = 25
+        Caption = 'Edit Food'
         TabOrder = 5
+        OnClick = btnEditFoodClick
       end
     end
+  end
+  object Timer1: TTimer
+    Interval = 60000
+    OnTimer = Timer1Timer
+    Left = 464
+    Top = 288
+  end
+  object TimerCountdown: TTimer
+    OnTimer = TimerCountdownTimer
+    Left = 384
+    Top = 288
   end
 end
